@@ -5,87 +5,247 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>N1 阅读分数计算器</title>
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
   </head>
   <body>
     <div class="container">
-      <h1>日语 N1 阅读分数计算器</h1>
+      <header>
+        <h1>日语 N1 阅读分数计算器</h1>
+        <div class="total-score"><span id="score">0</span> / <span id="totalPossibleScore">0</span></div>
+      </header>
 
-      <div class="question-group" id="group8">
-        <h2>問題8</h2>
-        <div class="input-row">
-          <label for="total8">总题数:</label>
-          <input type="number" id="total8" value="4" min="0" />
+      <div class="cards-container">
+        <div class="question-card" id="group8">
+          <div class="card-header">
+            <h2>問題8</h2>
+            <span class="points-badge">2分/题</span>
+          </div>
+          <div class="card-body">
+            <div class="slider-group">
+              <label>总题数: <span class="total-display">4</span></label>
+              <div class="slider-container">
+                <input type="range" class="total-slider" min="0" max="15" value="4" data-group="8" />
+                <div class="input-fallback">
+                  <button class="decrement-btn"><i class="fas fa-minus"></i></button>
+                  <input type="number" id="total8" value="4" min="0" max="15" />
+                  <button class="increment-btn"><i class="fas fa-plus"></i></button>
+                </div>
+              </div>
+            </div>
+            <div class="slider-group">
+              <label>答对题数: <span class="correct-display">0</span></label>
+              <div class="slider-container">
+                <input type="range" class="correct-slider" min="0" max="4" value="0" data-group="8" />
+                <div class="input-fallback">
+                  <button class="decrement-btn"><i class="fas fa-minus"></i></button>
+                  <input type="number" id="correct8" value="0" min="0" max="4" />
+                  <button class="increment-btn"><i class="fas fa-plus"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="score-indicator">
+              <div class="score-bar" style="width: 0%"></div>
+            </div>
+            <span class="group-score">0/8</span>
+          </div>
         </div>
-        <div class="input-row">
-          <label for="correct8">答对题数:</label>
-          <input type="number" id="correct8" value="0" min="0" />
+
+        <div class="question-card" id="group9">
+          <div class="card-header">
+            <h2>問題9</h2>
+            <span class="points-badge">2分/题</span>
+          </div>
+          <div class="card-body">
+            <div class="slider-group">
+              <label>总题数: <span class="total-display">9</span></label>
+              <div class="slider-container">
+                <input type="range" class="total-slider" min="0" max="15" value="9" data-group="9" />
+                <div class="input-fallback">
+                  <button class="decrement-btn"><i class="fas fa-minus"></i></button>
+                  <input type="number" id="total9" value="9" min="0" max="15" />
+                  <button class="increment-btn"><i class="fas fa-plus"></i></button>
+                </div>
+              </div>
+            </div>
+            <div class="slider-group">
+              <label>答对题数: <span class="correct-display">0</span></label>
+              <div class="slider-container">
+                <input type="range" class="correct-slider" min="0" max="9" value="0" data-group="9" />
+                <div class="input-fallback">
+                  <button class="decrement-btn"><i class="fas fa-minus"></i></button>
+                  <input type="number" id="correct9" value="0" min="0" max="9" />
+                  <button class="increment-btn"><i class="fas fa-plus"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="score-indicator">
+              <div class="score-bar" style="width: 0%"></div>
+            </div>
+            <span class="group-score">0/18</span>
+          </div>
+        </div>
+
+        <div class="question-card" id="group10">
+          <div class="card-header">
+            <h2>問題10</h2>
+            <span class="points-badge">3分/题</span>
+          </div>
+          <div class="card-body">
+            <div class="slider-group">
+              <label>总题数: <span class="total-display">4</span></label>
+              <div class="slider-container">
+                <input type="range" class="total-slider" min="0" max="10" value="4" data-group="10" />
+                <div class="input-fallback">
+                  <button class="decrement-btn"><i class="fas fa-minus"></i></button>
+                  <input type="number" id="total10" value="4" min="0" max="10" />
+                  <button class="increment-btn"><i class="fas fa-plus"></i></button>
+                </div>
+              </div>
+            </div>
+            <div class="slider-group">
+              <label>答对题数: <span class="correct-display">0</span></label>
+              <div class="slider-container">
+                <input type="range" class="correct-slider" min="0" max="4" value="0" data-group="10" />
+                <div class="input-fallback">
+                  <button class="decrement-btn"><i class="fas fa-minus"></i></button>
+                  <input type="number" id="correct10" value="0" min="0" max="4" />
+                  <button class="increment-btn"><i class="fas fa-plus"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="score-indicator">
+              <div class="score-bar" style="width: 0%"></div>
+            </div>
+            <span class="group-score">0/12</span>
+          </div>
+        </div>
+
+        <div class="question-card" id="group11">
+          <div class="card-header">
+            <h2>問題11</h2>
+            <span class="points-badge">3分/题</span>
+          </div>
+          <div class="card-body">
+            <div class="slider-group">
+              <label>总题数: <span class="total-display">3</span></label>
+              <div class="slider-container">
+                <input type="range" class="total-slider" min="0" max="10" value="3" data-group="11" />
+                <div class="input-fallback">
+                  <button class="decrement-btn"><i class="fas fa-minus"></i></button>
+                  <input type="number" id="total11" value="3" min="0" max="10" />
+                  <button class="increment-btn"><i class="fas fa-plus"></i></button>
+                </div>
+              </div>
+            </div>
+            <div class="slider-group">
+              <label>答对题数: <span class="correct-display">0</span></label>
+              <div class="slider-container">
+                <input type="range" class="correct-slider" min="0" max="3" value="0" data-group="11" />
+                <div class="input-fallback">
+                  <button class="decrement-btn"><i class="fas fa-minus"></i></button>
+                  <input type="number" id="correct11" value="0" min="0" max="3" />
+                  <button class="increment-btn"><i class="fas fa-plus"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="score-indicator">
+              <div class="score-bar" style="width: 0%"></div>
+            </div>
+            <span class="group-score">0/9</span>
+          </div>
+        </div>
+
+        <div class="question-card" id="group12">
+          <div class="card-header">
+            <h2>問題12</h2>
+            <span class="points-badge">3分/题</span>
+          </div>
+          <div class="card-body">
+            <div class="slider-group">
+              <label>总题数: <span class="total-display">4</span></label>
+              <div class="slider-container">
+                <input type="range" class="total-slider" min="0" max="10" value="4" data-group="12" />
+                <div class="input-fallback">
+                  <button class="decrement-btn"><i class="fas fa-minus"></i></button>
+                  <input type="number" id="total12" value="4" min="0" max="10" />
+                  <button class="increment-btn"><i class="fas fa-plus"></i></button>
+                </div>
+              </div>
+            </div>
+            <div class="slider-group">
+              <label>答对题数: <span class="correct-display">0</span></label>
+              <div class="slider-container">
+                <input type="range" class="correct-slider" min="0" max="4" value="0" data-group="12" />
+                <div class="input-fallback">
+                  <button class="decrement-btn"><i class="fas fa-minus"></i></button>
+                  <input type="number" id="correct12" value="0" min="0" max="4" />
+                  <button class="increment-btn"><i class="fas fa-plus"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="score-indicator">
+              <div class="score-bar" style="width: 0%"></div>
+            </div>
+            <span class="group-score">0/12</span>
+          </div>
+        </div>
+
+        <div class="question-card" id="group13">
+          <div class="card-header">
+            <h2>問題13</h2>
+            <span class="points-badge">3分/题</span>
+          </div>
+          <div class="card-body">
+            <div class="slider-group">
+              <label>总题数: <span class="total-display">2</span></label>
+              <div class="slider-container">
+                <input type="range" class="total-slider" min="0" max="10" value="2" data-group="13" />
+                <div class="input-fallback">
+                  <button class="decrement-btn"><i class="fas fa-minus"></i></button>
+                  <input type="number" id="total13" value="2" min="0" max="10" />
+                  <button class="increment-btn"><i class="fas fa-plus"></i></button>
+                </div>
+              </div>
+            </div>
+            <div class="slider-group">
+              <label>答对题数: <span class="correct-display">0</span></label>
+              <div class="slider-container">
+                <input type="range" class="correct-slider" min="0" max="2" value="0" data-group="13" />
+                <div class="input-fallback">
+                  <button class="decrement-btn"><i class="fas fa-minus"></i></button>
+                  <input type="number" id="correct13" value="0" min="0" max="2" />
+                  <button class="increment-btn"><i class="fas fa-plus"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="score-indicator">
+              <div class="score-bar" style="width: 0%"></div>
+            </div>
+            <span class="group-score">0/6</span>
+          </div>
         </div>
       </div>
 
-      <div class="question-group" id="group9">
-        <h2>問題9</h2>
-        <div class="input-row">
-          <label for="total9">总题数:</label>
-          <input type="number" id="total9" value="9" min="0" />
+      <div class="result-container">
+        <button id="calculateBtn">计算总分</button>
+        <div class="overall-progress">
+          <div class="progress-bar">
+            <div id="total-progress-bar" style="width: 0%"></div>
+          </div>
+          <div class="progress-text">总得分率: <span id="percentage">0%</span></div>
         </div>
-        <div class="input-row">
-          <label for="correct9">答对题数:</label>
-          <input type="number" id="correct9" value="0" min="0" />
-        </div>
-      </div>
-
-      <div class="question-group" id="group10">
-        <h2>問題10</h2>
-        <div class="input-row">
-          <label for="total10">总题数:</label>
-          <input type="number" id="total10" value="4" min="0" />
-        </div>
-        <div class="input-row">
-          <label for="correct10">答对题数:</label>
-          <input type="number" id="correct10" value="0" min="0" />
-        </div>
-      </div>
-
-      <div class="question-group" id="group11">
-        <h2>問題11</h2>
-        <div class="input-row">
-          <label for="total11">总题数:</label>
-          <input type="number" id="total11" value="3" min="0" />
-        </div>
-        <div class="input-row">
-          <label for="correct11">答对题数:</label>
-          <input type="number" id="correct11" value="0" min="0" />
-        </div>
-      </div>
-
-      <div class="question-group" id="group12">
-        <h2>問題12</h2>
-        <div class="input-row">
-          <label for="total12">总题数:</label>
-          <input type="number" id="total12" value="4" min="0" />
-        </div>
-        <div class="input-row">
-          <label for="correct12">答对题数:</label>
-          <input type="number" id="correct12" value="0" min="0" />
-        </div>
-      </div>
-
-      <div class="question-group" id="group13">
-        <h2>問題13</h2>
-        <div class="input-row">
-          <label for="total13">总题数:</label>
-          <input type="number" id="total13" value="2" min="0" />
-        </div>
-        <div class="input-row">
-          <label for="correct13">答对题数:</label>
-          <input type="number" id="correct13" value="0" min="0" />
-        </div>
-      </div>
-
-      <button id="calculateBtn">计算分数</button>
-
-      <div id="result">
-        <h2>你的得分: <span id="score">--</span> / <span id="totalPossibleScore">--</span></h2>
       </div>
     </div>
 
