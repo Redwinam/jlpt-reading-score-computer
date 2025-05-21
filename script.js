@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
     { id: 13, pointsPerQuestion: 3 },
   ];
 
-  // 初始化所有滑块和显示
+  // 初始化所有控件和显示
   initializeControls();
 
   // 计算按钮点击事件
@@ -23,38 +23,13 @@ document.addEventListener("DOMContentLoaded", () => {
       const groupId = group.id;
 
       // 获取元素
-      const totalSlider = document.querySelector(`.total-slider[data-group="${groupId}"]`);
       const correctSlider = document.querySelector(`.correct-slider[data-group="${groupId}"]`);
       const totalInput = document.getElementById(`total${groupId}`);
       const correctInput = document.getElementById(`correct${groupId}`);
-      const totalDisplay = document.querySelector(`#group${groupId} .total-display`);
       const correctDisplay = document.querySelector(`#group${groupId} .correct-display`);
-      const groupScoreElement = document.querySelector(`#group${groupId} .group-score`);
-      const scoreBar = document.querySelector(`#group${groupId} .score-bar`);
-      const decrementTotalBtn = totalInput.previousElementSibling;
-      const incrementTotalBtn = totalInput.nextElementSibling;
-      const decrementCorrectBtn = correctInput.previousElementSibling;
-      const incrementCorrectBtn = correctInput.nextElementSibling;
 
       // 设置初始显示
       updateGroupScore(groupId);
-
-      // 总题数滑块事件
-      totalSlider.addEventListener("input", () => {
-        const value = parseInt(totalSlider.value);
-        totalInput.value = value;
-        totalDisplay.textContent = value;
-
-        // 更新答对题数滑块最大值
-        correctSlider.max = value;
-        if (parseInt(correctSlider.value) > value) {
-          correctSlider.value = value;
-          correctInput.value = value;
-          correctDisplay.textContent = value;
-        }
-
-        updateGroupScore(groupId);
-      });
 
       // 答对题数滑块事件
       correctSlider.addEventListener("input", () => {
@@ -70,10 +45,8 @@ document.addEventListener("DOMContentLoaded", () => {
         if (value < 0) value = 0;
 
         totalInput.value = value;
-        totalSlider.value = value;
-        totalDisplay.textContent = value;
 
-        // 更新答对题数最大值
+        // 更新答对题数滑块最大值
         correctSlider.max = value;
         if (parseInt(correctInput.value) > value) {
           correctInput.value = value;
@@ -98,63 +71,47 @@ document.addEventListener("DOMContentLoaded", () => {
 
         updateGroupScore(groupId);
       });
+    });
 
-      // 增减按钮事件
-      decrementTotalBtn.addEventListener("click", () => {
-        let value = parseInt(totalInput.value) - 1;
+    // 获取所有加减按钮并添加事件监听
+    const decrementBtns = document.querySelectorAll(".decrement-btn");
+    const incrementBtns = document.querySelectorAll(".increment-btn");
+
+    decrementBtns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const targetId = btn.getAttribute("data-for");
+        if (!targetId) return;
+
+        const input = document.getElementById(targetId);
+        if (!input) return;
+
+        let value = parseInt(input.value) - 1;
         if (value < 0) value = 0;
+        input.value = value;
 
-        totalInput.value = value;
-        totalSlider.value = value;
-        totalDisplay.textContent = value;
-
-        // 更新答对题数最大值
-        correctSlider.max = value;
-        if (parseInt(correctInput.value) > value) {
-          correctInput.value = value;
-          correctSlider.value = value;
-          correctDisplay.textContent = value;
-        }
-
-        updateGroupScore(groupId);
+        // 触发change事件以更新其他相关元素
+        const event = new Event("change");
+        input.dispatchEvent(event);
       });
+    });
 
-      incrementTotalBtn.addEventListener("click", () => {
-        let value = parseInt(totalInput.value) + 1;
-        if (value > parseInt(totalSlider.max)) value = parseInt(totalSlider.max);
+    incrementBtns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const targetId = btn.getAttribute("data-for");
+        if (!targetId) return;
 
-        totalInput.value = value;
-        totalSlider.value = value;
-        totalDisplay.textContent = value;
+        const input = document.getElementById(targetId);
+        if (!input) return;
 
-        // 更新答对题数最大值
-        correctSlider.max = value;
+        let value = parseInt(input.value) + 1;
+        const max = parseInt(input.getAttribute("max") || "999");
+        if (value > max) value = max;
 
-        updateGroupScore(groupId);
-      });
+        input.value = value;
 
-      decrementCorrectBtn.addEventListener("click", () => {
-        let value = parseInt(correctInput.value) - 1;
-        if (value < 0) value = 0;
-
-        correctInput.value = value;
-        correctSlider.value = value;
-        correctDisplay.textContent = value;
-
-        updateGroupScore(groupId);
-      });
-
-      incrementCorrectBtn.addEventListener("click", () => {
-        let value = parseInt(correctInput.value) + 1;
-        const totalValue = parseInt(totalInput.value) || 0;
-
-        if (value > totalValue) value = totalValue;
-
-        correctInput.value = value;
-        correctSlider.value = value;
-        correctDisplay.textContent = value;
-
-        updateGroupScore(groupId);
+        // 触发change事件以更新其他相关元素
+        const event = new Event("change");
+        input.dispatchEvent(event);
       });
     });
 
