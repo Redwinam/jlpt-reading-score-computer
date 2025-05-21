@@ -9,6 +9,8 @@
     --card-bg: #ffffff;
     --border-radius: 8px;
     --shadow: 0 2px 5px rgba(0,0,0,0.1);
+    --input-height: 32px;
+    --border-color: #ced4da;
 }
 
 * {
@@ -102,10 +104,12 @@ h1 {
     background-color: #f8f9fa;
     padding: 12px 15px;
     border-bottom: 1px solid #e9ecef;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .card-header h2 {
-    margin: 0 0 8px 0;
     font-size: 1.2rem;
     color: var(--dark-color);
     border: none;
@@ -140,19 +144,59 @@ h1 {
     font-weight: 500;
 }
 
+/* 通用输入数字控件样式 */
 .number-control {
     display: flex;
     align-items: center;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    height: var(--input-height);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    border: 1px solid var(--border-color);
 }
 
 .number-control input[type="number"] {
     width: 45px;
-    height: 28px;
+    height: var(--input-height);
     padding: 0 2px;
     text-align: center;
-    border: 1px solid #dee2e6;
-    border-radius: 4px;
+    border: none;
+    border-left: 1px solid var(--border-color);
+    border-right: 1px solid var(--border-color);
+    margin: 0;
     font-size: 0.9rem;
+    box-shadow: none;
+}
+
+.number-control input[type="number"]:focus {
+    outline: none;
+    box-shadow: none;
+    border-color: var(--border-color);
+}
+
+.number-control .decrement-btn,
+.number-control .increment-btn {
+    width: 32px;
+    height: var(--input-height);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f8f9fa;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-size: 0.8rem;
+    color: var(--dark-color);
+}
+
+.number-control .decrement-btn:hover,
+.number-control .increment-btn:hover {
+    background-color: #e9ecef;
+}
+
+.number-control .decrement-btn:active,
+.number-control .increment-btn:active {
+    background-color: #dde2e6;
 }
 
 .card-body {
@@ -243,45 +287,55 @@ input[type="range"]:active::-moz-range-thumb {
     background: var(--secondary-color);
 }
 
+/* 卡片内滑块旁的数字控件样式 */
 .input-fallback {
     display: flex;
     align-items: center;
     width: 120px;
+    height: var(--input-height);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    border: 1px solid var(--border-color);
 }
 
-.decrement-btn, .increment-btn {
-    width: 28px;
-    height: 28px;
-    background: var(--light-color);
-    border: 1px solid #ced4da;
-    border-radius: 4px;
+.input-fallback .decrement-btn,
+.input-fallback .increment-btn {
+    width: 32px;
+    height: var(--input-height);
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: #f8f9fa;
+    border: none;
     cursor: pointer;
-    transition: background 0.3s ease;
+    transition: background-color 0.2s;
     font-size: 0.8rem;
+    color: var(--dark-color);
 }
 
-.decrement-btn:hover, .increment-btn:hover {
-    background: #e2e6ea;
+.input-fallback .decrement-btn:hover,
+.input-fallback .increment-btn:hover {
+    background-color: #e9ecef;
 }
 
-input[type="number"] {
-    width: 60px;
-    height: 30px;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
+.input-fallback input[type="number"] {
+    width: 56px;
+    height: var(--input-height);
+    border: none;
+    border-left: 1px solid var(--border-color);
+    border-right: 1px solid var(--border-color);
     text-align: center;
-    margin: 0 5px;
+    margin: 0;
     padding: 0 5px;
-    font-size: 1rem;
+    font-size: 0.9rem;
+    box-shadow: none;
 }
 
-input[type="number"]:focus {
-    border-color: var(--primary-color);
+.input-fallback input[type="number"]:focus {
     outline: none;
-    box-shadow: 0 0 0 0.2rem rgba(67, 97, 238, 0.25);
+    box-shadow: none;
+    border-color: var(--border-color);
 }
 
 .result-container {
@@ -292,13 +346,13 @@ input[type="number"]:focus {
     margin-top: 20px;
 }
 
-button {
+button#calculateBtn {
     background-color: var(--primary-color);
     color: white;
     border: none;
     padding: 12px 20px;
     border-radius: var(--border-radius);
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: 500;
     cursor: pointer;
     transition: background 0.3s ease;
@@ -307,12 +361,7 @@ button {
     margin-bottom: 15px;
 }
 
-button#calculateBtn {
-    background-color: var(--primary-color);
-    font-size: 1.1rem;
-}
-
-button:hover {
+button#calculateBtn:hover {
     background-color: var(--secondary-color);
 }
 
