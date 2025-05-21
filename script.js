@@ -16,6 +16,81 @@ document.addEventListener("DOMContentLoaded", () => {
   const calculateBtn = document.getElementById("calculateBtn");
   calculateBtn.addEventListener("click", calculateScore);
 
+  // 添加点击分数复制到剪贴板功能
+  const totalScoreElement = document.querySelector(".total-score");
+  totalScoreElement.addEventListener("click", copyScoreToClipboard);
+  totalScoreElement.style.cursor = "pointer";
+  totalScoreElement.setAttribute("title", "点击复制分数到剪贴板");
+
+  // 复制分数到剪贴板
+  function copyScoreToClipboard() {
+    const score = document.getElementById("score").textContent;
+    const totalPossibleScore = document.getElementById("totalPossibleScore").textContent;
+    const scoreText = `${score}/${totalPossibleScore}`;
+
+    navigator.clipboard
+      .writeText(scoreText)
+      .then(() => {
+        // 显示复制成功提示
+        showCopyFeedback(totalScoreElement, "已复制到剪贴板!");
+      })
+      .catch((err) => {
+        console.error("复制失败:", err);
+        showCopyFeedback(totalScoreElement, "复制失败");
+      });
+  }
+
+  // 显示复制反馈
+  function showCopyFeedback(element, message) {
+    // 创建提示元素
+    const feedback = document.createElement("div");
+    feedback.className = "copy-feedback";
+    feedback.textContent = message;
+
+    // 设置样式
+    feedback.style.position = "absolute";
+    feedback.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
+    feedback.style.color = "#fff";
+    feedback.style.width = "115px";
+    feedback.style.textAlign = "center";
+    feedback.style.padding = "6px 10px";
+    feedback.style.borderRadius = "4px";
+    feedback.style.fontSize = "12px";
+    feedback.style.zIndex = "1000";
+    feedback.style.opacity = "0";
+    feedback.style.transition = "opacity 0.3s";
+
+    // 插入到元素附近
+    element.style.position = "relative";
+    element.appendChild(feedback);
+
+    // 计算位置 - 在元素下方居中
+    const rect = element.getBoundingClientRect();
+    feedback.style.top = "100%";
+    feedback.style.left = "50%";
+    feedback.style.transform = "translateX(-50%)";
+    feedback.style.marginTop = "5px";
+
+    // 显示提示
+    setTimeout(() => {
+      feedback.style.opacity = "1";
+    }, 10);
+
+    // 2秒后隐藏并移除提示
+    setTimeout(() => {
+      feedback.style.opacity = "0";
+      setTimeout(() => {
+        element.removeChild(feedback);
+      }, 300);
+    }, 2000);
+
+    // 添加动画效果
+    totalScoreElement.classList.add("pulse-animation");
+    setTimeout(() => {
+      totalScoreElement.classList.remove("pulse-animation");
+    }, 1000);
+  }
+
   // 初始化控件和事件监听
   function initializeControls() {
     // 初始化每组问题的控件
