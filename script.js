@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
     { id: 10, pointsPerQuestion: 3 },
     { id: 11, pointsPerQuestion: 3 },
     { id: 12, pointsPerQuestion: 3 },
-    { id: 13, pointsPerQuestion: 3 },
+    { id: 13, pointsPerQuestion: 2 },
   ];
 
   // 初始化所有控件和显示
