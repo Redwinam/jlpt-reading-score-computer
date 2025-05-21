@@ -48,11 +48,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // 更新答对题数滑块最大值
         correctSlider.max = value;
-        if (parseInt(correctInput.value) > value) {
-          correctInput.value = value;
-          correctSlider.value = value;
-          correctDisplay.textContent = value;
-        }
+
+        // 自动设置答对题数等于总题数
+        correctInput.value = value;
+        correctSlider.value = value;
+        correctDisplay.textContent = value;
 
         updateGroupScore(groupId);
       });
@@ -89,6 +89,24 @@ document.addEventListener("DOMContentLoaded", () => {
         if (value < 0) value = 0;
         input.value = value;
 
+        // 如果是更改总题数，且总题数小于答对题数，则自动调整答对题数
+        if (targetId.startsWith("total")) {
+          const groupId = targetId.replace("total", "");
+          const correctInput = document.getElementById(`correct${groupId}`);
+          const correctSlider = document.querySelector(`.correct-slider[data-group="${groupId}"]`);
+          const correctDisplay = document.querySelector(`#group${groupId} .correct-display`);
+
+          // 设置最大值
+          correctSlider.max = value;
+
+          // 如果答对题数大于总题数，调整为总题数
+          if (parseInt(correctInput.value) > value) {
+            correctInput.value = value;
+            correctSlider.value = value;
+            correctDisplay.textContent = value;
+          }
+        }
+
         // 触发change事件以更新其他相关元素
         const event = new Event("change");
         input.dispatchEvent(event);
@@ -108,6 +126,20 @@ document.addEventListener("DOMContentLoaded", () => {
         if (value > max) value = max;
 
         input.value = value;
+
+        // 如果是更改总题数，则自动增加答对题数
+        if (targetId.startsWith("total")) {
+          const groupId = targetId.replace("total", "");
+          const correctInput = document.getElementById(`correct${groupId}`);
+          const correctSlider = document.querySelector(`.correct-slider[data-group="${groupId}"]`);
+          const correctDisplay = document.querySelector(`#group${groupId} .correct-display`);
+
+          // 设置最大值并将答对题数设置为总题数
+          correctSlider.max = value;
+          correctInput.value = value;
+          correctSlider.value = value;
+          correctDisplay.textContent = value;
+        }
 
         // 触发change事件以更新其他相关元素
         const event = new Event("change");
