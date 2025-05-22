@@ -233,7 +233,12 @@ h1 {
     color: var(--timer-active-color);
 }
 
-.timer-btn {
+.timer-controls {
+    display: flex;
+    gap: 5px;
+}
+
+.timer-btn, .timer-reset-btn {
     background-color: #f8f9fa;
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
@@ -247,18 +252,45 @@ h1 {
     color: var(--timer-color);
 }
 
-.timer-btn:hover {
+.timer-btn:hover, .timer-reset-btn:hover {
     background-color: #e9ecef;
+}
+
+.timer-btn:active, .timer-reset-btn:active {
+    background-color: #dde2e6;
 }
 
 .timer-btn.active {
     background-color: var(--timer-active-color);
     color: white;
-    border-color: var(--timer-active-color);
 }
 
 .timer-btn.active:hover {
-    background-color: var(--secondary-color);
+    background-color: #3a56da;
+}
+
+.timer-reset-btn {
+    color: #6c757d;
+}
+
+.timer-reset-btn:hover {
+    color: var(--warning-color);
+}
+
+@keyframes reset-pulse {
+    0% {
+        color: var(--timer-color);
+    }
+    50% {
+        color: var(--warning-color);
+    }
+    100% {
+        color: var(--timer-color);
+    }
+}
+
+.reset-animation {
+    animation: reset-pulse 0.5s ease;
 }
 
 .card-footer {

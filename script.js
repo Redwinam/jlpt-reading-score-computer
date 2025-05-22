@@ -108,6 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // 初始化计时器
   function initializeTimers() {
     const timerBtns = document.querySelectorAll(".timer-btn");
+    const resetBtns = document.querySelectorAll(".timer-reset-btn");
 
     timerBtns.forEach((btn) => {
       const groupId = btn.getAttribute("data-group");
@@ -115,6 +116,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
       btn.addEventListener("click", () => {
         toggleTimer(groupId);
+      });
+    });
+
+    // 初始化复原按钮
+    resetBtns.forEach((btn) => {
+      const groupId = btn.getAttribute("data-group");
+      if (!groupId) return;
+
+      btn.addEventListener("click", () => {
+        resetTimer(groupId);
       });
     });
   }
@@ -169,6 +180,43 @@ document.addEventListener("DOMContentLoaded", () => {
       // 立即更新一次显示
       updateTimerDisplay(groupId, timer.elapsedTime);
     }
+  }
+
+  // 复原计时器
+  function resetTimer(groupId) {
+    const timer = timers[groupId];
+    const timerEl = document.querySelector(`.timer[data-group="${groupId}"]`);
+    const timerBtn = document.querySelector(`.timer-btn[data-group="${groupId}"]`);
+    let timerDisplay = document.querySelector(`.timer-container[data-group="${groupId}"] .timer-display`);
+
+    if (!timerEl) {
+      console.error(`找不到计时器元素，groupId: ${groupId}`);
+      return;
+    }
+
+    // 如果计时器正在运行，先停止它
+    if (timer.isRunning) {
+      clearInterval(timer.intervalId);
+      timer.isRunning = false;
+
+      // 更新UI状态
+      timerBtn.innerHTML = '<i class="fas fa-play"></i>';
+      timerBtn.classList.remove("active");
+      if (timerDisplay) timerDisplay.classList.remove("active");
+    }
+
+    // 重置计时器数据
+    timer.elapsedTime = 0;
+    timer.startTime = 0;
+
+    // 更新显示
+    updateTimerDisplay(groupId, 0);
+
+    // 添加一个简单的动画效果提示重置成功
+    timerEl.classList.add("reset-animation");
+    setTimeout(() => {
+      timerEl.classList.remove("reset-animation");
+    }, 500);
   }
 
   // 更新计时器显示
