@@ -11,6 +11,8 @@
     --shadow: 0 2px 5px rgba(0,0,0,0.1);
     --input-height: 32px;
     --border-color: #ced4da;
+    --timer-color: #6c757d;
+    --timer-active-color: #4361ee;
 }
 
 * {
@@ -40,6 +42,8 @@ header {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e0e0e0;
 }
 
 h1 {
@@ -199,6 +203,62 @@ h1 {
 
 .card-body {
     padding: 15px;
+}
+
+/* 计时器样式 */
+.timer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed #e9ecef;
+}
+
+.timer-display {
+    display: flex;
+    align-items: center;
+    font-family: 'Courier New', monospace;
+    color: var(--timer-color);
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.timer-display i {
+    margin-right: 8px;
+    font-size: 0.9rem;
+}
+
+.timer-display.active {
+    color: var(--timer-active-color);
+}
+
+.timer-btn {
+    background-color: #f8f9fa;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    width: 36px;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--timer-color);
+}
+
+.timer-btn:hover {
+    background-color: #e9ecef;
+}
+
+.timer-btn.active {
+    background-color: var(--timer-active-color);
+    color: white;
+    border-color: var(--timer-active-color);
+}
+
+.timer-btn.active:hover {
+    background-color: var(--secondary-color);
 }
 
 .card-footer {
@@ -412,4 +472,4 @@ button#calculateBtn:hover {
     .total-score {
         margin-top: 10px;
     }
-} 
+}

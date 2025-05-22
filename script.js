@@ -9,6 +9,17 @@ document.addEventListener("DOMContentLoaded", () => {
     { id: 13, pointsPerQuestion: 2 },
   ];
 
+  // 计时器数据
+  const timers = {};
+  questionGroups.forEach((group) => {
+    timers[group.id] = {
+      isRunning: false,
+      startTime: 0,
+      elapsedTime: 0,
+      intervalId: null,
+    };
+  });
+
   // 初始化所有控件和显示
   initializeControls();
 
@@ -21,6 +32,9 @@ document.addEventListener("DOMContentLoaded", () => {
   totalScoreElement.addEventListener("click", copyScoreToClipboard);
   totalScoreElement.style.cursor = "pointer";
   totalScoreElement.setAttribute("title", "点击复制分数到剪贴板");
+
+  // 初始化计时器按钮
+  initializeTimers();
 
   // 复制分数到剪贴板
   function copyScoreToClipboard() {
@@ -89,6 +103,87 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
       totalScoreElement.classList.remove("pulse-animation");
     }, 1000);
+  }
+
+  // 初始化计时器
+  function initializeTimers() {
+    const timerBtns = document.querySelectorAll(".timer-btn");
+
+    timerBtns.forEach((btn) => {
+      const groupId = btn.getAttribute("data-group");
+      if (!groupId) return;
+
+      btn.addEventListener("click", () => {
+        toggleTimer(groupId);
+      });
+    });
+  }
+
+  // 切换计时器状态（开始/暂停）
+  function toggleTimer(groupId) {
+    const timer = timers[groupId];
+    const timerBtn = document.querySelector(`.timer-btn[data-group="${groupId}"]`);
+    let timerDisplay = document.querySelector(`.timer-container[data-group="${groupId}"] .timer-display`);
+    if (!timerDisplay) {
+      // 如果找不到使用上面的选择器，尝试使用父元素关系找到对应元素
+      const timerContainer = timerBtn.closest(".timer-container");
+      if (timerContainer) {
+        timerDisplay = timerContainer.querySelector(".timer-display");
+      }
+    }
+    const timerEl = document.querySelector(`.timer[data-group="${groupId}"]`);
+
+    // 检查元素是否存在
+    if (!timerBtn || !timerEl) {
+      console.error(`找不到计时器元素，groupId: ${groupId}`);
+      return;
+    }
+
+    if (timer.isRunning) {
+      // 暂停计时器
+      clearInterval(timer.intervalId);
+      timer.elapsedTime += Date.now() - timer.startTime;
+      timer.isRunning = false;
+
+      // 更新UI
+      timerBtn.innerHTML = '<i class="fas fa-play"></i>';
+      timerBtn.classList.remove("active");
+      if (timerDisplay) timerDisplay.classList.remove("active");
+    } else {
+      // 开始计时器
+      timer.startTime = Date.now();
+      timer.isRunning = true;
+
+      // 更新UI
+      timerBtn.innerHTML = '<i class="fas fa-pause"></i>';
+      timerBtn.classList.add("active");
+      if (timerDisplay) timerDisplay.classList.add("active");
+
+      // 设置定时器
+      timer.intervalId = setInterval(() => {
+        const currentTime = Date.now();
+        const totalElapsed = timer.elapsedTime + (currentTime - timer.startTime);
+        updateTimerDisplay(groupId, totalElapsed);
+      }, 1000);
+
+      // 立即更新一次显示
+      updateTimerDisplay(groupId, timer.elapsedTime);
+    }
+  }
+
+  // 更新计时器显示
+  function updateTimerDisplay(groupId, elapsedTime) {
+    const timerEl = document.querySelector(`.timer[data-group="${groupId}"]`);
+    if (!timerEl) return;
+
+    // 将毫秒转换为分钟和秒
+    const totalSeconds = Math.floor(elapsedTime / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+
+    // 格式化显示
+    const formattedTime = `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+    timerEl.textContent = formattedTime;
   }
 
   // 初始化控件和事件监听
