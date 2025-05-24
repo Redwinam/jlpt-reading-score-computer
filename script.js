@@ -20,6 +20,9 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   });
 
+  // 总时间更新定时器
+  let totalTimeIntervalId = null;
+
   // 初始化所有控件和显示
   initializeControls();
 
@@ -35,6 +38,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 初始化计时器按钮
   initializeTimers();
+
+  // 启动总时间更新定时器
+  startTotalTimeUpdater();
+
+  // 初始化总时间复原按钮
+  const resetTotalTimeBtn = document.getElementById("resetTotalTime");
+  if (resetTotalTimeBtn) {
+    resetTotalTimeBtn.addEventListener("click", resetAllTimers);
+  }
 
   // 复制分数到剪贴板
   function copyScoreToClipboard() {
@@ -52,6 +64,25 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("复制失败:", err);
         showCopyFeedback(totalScoreElement, "复制失败");
       });
+  }
+
+  // 重置所有计时器
+  function resetAllTimers() {
+    // 重置每个大题的计时器
+    questionGroups.forEach((group) => {
+      resetTimer(group.id);
+    });
+
+    // 添加动画效果
+    const resetBtn = document.getElementById("resetTotalTime");
+    resetBtn.classList.add("reset-animation");
+    setTimeout(() => {
+      resetBtn.classList.remove("reset-animation");
+    }, 500);
+
+    // 显示提示
+    const totalTimeEl = document.querySelector(".total-time");
+    showCopyFeedback(totalTimeEl, "已重置所有计时器");
   }
 
   // 显示复制反馈
@@ -103,6 +134,51 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
       totalScoreElement.classList.remove("pulse-animation");
     }, 1000);
+  }
+
+  // 启动总时间更新定时器
+  function startTotalTimeUpdater() {
+    // 每秒更新一次总时间
+    totalTimeIntervalId = setInterval(() => {
+      updateTotalTime();
+    }, 1000);
+
+    // 立即更新一次
+    updateTotalTime();
+  }
+
+  // 计算并更新总时间
+  function updateTotalTime() {
+    let totalSeconds = 0;
+
+    // 计算所有计时器的总时间
+    questionGroups.forEach((group) => {
+      const timer = timers[group.id];
+      let groupElapsedTime = timer.elapsedTime;
+
+      // 如果计时器正在运行，加上当前运行时间
+      if (timer.isRunning) {
+        groupElapsedTime += Date.now() - timer.startTime;
+      }
+
+      totalSeconds += Math.floor(groupElapsedTime / 1000);
+    });
+
+    // 格式化总时间
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+
+    // 显示格式：HH:MM:SS 或 MM:SS
+    let formattedTime;
+    if (hours > 0) {
+      formattedTime = `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+    } else {
+      formattedTime = `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+    }
+
+    // 更新总时间显示
+    document.getElementById("totalTime").textContent = formattedTime;
   }
 
   // 初始化计时器
@@ -180,6 +256,9 @@ document.addEventListener("DOMContentLoaded", () => {
       // 立即更新一次显示
       updateTimerDisplay(groupId, timer.elapsedTime);
     }
+
+    // 更新总时间
+    updateTotalTime();
   }
 
   // 复原计时器
@@ -211,6 +290,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 更新显示
     updateTimerDisplay(groupId, 0);
+
+    // 更新总时间
+    updateTotalTime();
 
     // 添加一个简单的动画效果提示重置成功
     timerEl.classList.add("reset-animation");

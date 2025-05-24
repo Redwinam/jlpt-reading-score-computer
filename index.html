@@ -11,7 +11,16 @@
     <div class="container">
       <header>
         <h1>日语 N1 阅读分数计算器</h1>
-        <div class="total-score"><span id="score">0</span> / <span id="totalPossibleScore">0</span></div>
+        <div class="header-right">
+          <div class="total-time">
+            <i class="fas fa-stopwatch"></i>
+            <span id="totalTime">00:00</span>
+            <button id="resetTotalTime" title="重置所有计时器" class="total-time-reset">
+              <i class="fas fa-undo"></i>
+            </button>
+          </div>
+          <div class="total-score"><span id="score">0</span> / <span id="totalPossibleScore">0</span></div>
+        </div>
       </header>
 
       <div class="cards-container">
